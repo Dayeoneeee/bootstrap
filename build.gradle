@@ -1,0 +1,58 @@
+//build.gradle : 배포설정 파일
+
+plugins {
+    id 'java'   //개발언어 java
+    id 'war'    //배포파일 war
+    id 'org.springframework.boot' version '3.4.0'   //스프링부트 3.4.0 개발
+    id 'io.spring.dependency-management' version '1.1.6'    //종속성관리 1.1.6
+}
+
+group = 'com.example'   //프로젝트 그룹
+version = '0.0.1-SNAPSHOT'  //현재 프로젝트의 버전 1(구조변경).1(대규모수정).1(오류수정)
+
+java {      //컴파일(빌드) 작업시 사용할 자바의 버전 21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+configurations {        //컴파일 작업시에만 적용
+    compileOnly {   //문법 및 오류검사를 컴파일 작업시 확인
+        extendsFrom annotationProcessor     //lombok 라이브러리
+    }
+}
+
+repositories {  //저장소, 라이브러리 관리, maven을 통해서 라이브러리 관리
+    mavenCentral()
+}
+
+dependencies {  //의존성, 외부라이브러리를 상속받아서 프로그램 확정
+    //개발시 라이브러리를 의존해서 개발
+    //JPA(Java Persistence API)를 이용해서 데이테베이스와 상호작용(SQL대신)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    //템플릿엔진을 이용해서 html에 java명령어를 사용
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    //스프트링부트에 웹 애플리케이션을 만들도록 도와주는 라이브러리
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    //클래스 생성자, 클래스변수를 외부에서 사용(Getter, Setter) 함수를 자동화하는 라이브럴리
+    //컴파일시에만 적용한다.
+    compileOnly 'org.projectlombok:lombok'
+    //개발 편의 기능을 제공하는 라이브러리
+    //개발시에만 적용, 컴파일시에만 제외
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    //h2 데이터베이스, 항상 실행상태를 유지
+    runtimeOnly 'com.h2database:h2'
+    annotationProcessor 'org.projectlombok:lombok'
+    //톰캣서버(엔텔리제이 톰캣서버가 내장되어 제공)-WAR
+    //jar파일로 만들때는 생략
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    //DTO<->Entity간의 데이터 변환
+    implementation 'org.modelmapper:modelmapper:3.1.1'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

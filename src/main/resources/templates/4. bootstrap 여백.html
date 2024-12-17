@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <pre>
+        해당요소를 기준으로 해서 바깥쪽여백(margin), 안쪽여백(pading)으로 구성
+        크기는 1~5사이의 값
+
+        [바깥쪽 여백]
+        m-크기 : 상하좌우의 여백을 적용
+        mt-크기 : 위쪽 여백을 적용(Top)
+        mb-크기 : 아래쪽 여백을 적용(Bottom)
+        ml-크기 : 왼쪽 여백을 적용(Left)
+        mr-크기 : 오른쪽 여백을 적용(Right)
+        mx-크기 : 좌우 여백을 적용
+        my-크기 : 상하 여백을 적용
+
+        [안쪽 여백]
+        p-크기 : 상하좌우의 여백을 적용
+        pt-크기 : 위쪽 여백을 적용(Top)
+        pb-크기 : 아래쪽 여백을 적용(Bottom)
+        pl-크기 : 왼쪽 여백을 적용(Left)
+        pr-크기 : 오른쪽 여백을 적용(Right)
+        px-크기 : 좌우 여백을 적용
+        py-크기 : 상하 여백을 적용
+
+        각 요소별 간격 또는 크기 지정
+        여백시 내용이 가운데 존재하면 여백이 적용 된 상태
+        여백시 내용이 상단에 존재하면 여백이 적용되지 않은 상태
+    </pre>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-4 m-3 border">a</div>
+            <div class="col-4 mx-3 border">a</div>
+            <div class="col-4 my-3 border">a</div>
+        </div>
+        <div class="row">
+            <div class="col-4 p-3 border">a</div>
+            <div class="col-4 px-3 border">a</div>
+            <div class="col-4 py-3 border">a</div>
+        </div>
+    </div>
+</body>
+</html>
