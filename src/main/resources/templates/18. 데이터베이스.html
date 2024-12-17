@@ -1,0 +1,121 @@
+mariaDB.org
+
+MySQL(무료) -> oracle 판매 -> MySQL(개인무료, 기업유료)
+      |-MariaDB 이름변경해서 -비영리 무료
+
+mariadb server(운영체제)
+server는 하나의 컴퓨터에 한 개만 설치하는게 기본
+서버는 24시간 제공하는 역할
+
+데이터베이스 조작은 콘솔로 작업==>워크벤치(조작을 윈도우환경 제공)
+mariadb는 제공하는 워크벤치가 없다. -heidSQL(무료 프로그램 이용)
+
+1. 설치마법사
+2. 라이센스 정보
+3. 설치 프로그램 지정
+  MariaDB Server : 데이터베이스 프로그램(데이터베이스, 클라이언트관련, 백업프로그램)
+  Development Components : 개발자료(C, API 라이브러리를 제공)
+  Third party tools : 도구(워크벤치)
+4. 기본 속성
+  MariaDB는 초기 최상위 관리자 아이디 : root-데이터베이스에 모든 권한 부여
+  Modify password for database user 'root' : 비밀번호 지정
+  Enable access from remote machines for 'root' user : root로 외부에서 접속가능하게 함
+  User UTF8 as default server's character set : 기본 데이터베이스 문자셋(UTF-8)
+5. 환경 속성
+  Insetall as service : 서비스에 데이버베이스를 등록,
+                        윈도우부팅시 자동으로 데이터베이스 서버가 구동
+  Enable networking : 접속 포트 번호(기본 3306)
+  Innodb engine setting : 데이터베이스의 버퍼(메모리) 크기
+
+[HeidiSQL]
+1. 신규
+2. 네트워크 유형 : 사용할 데이터베이스, 접속방식(TCP/IP-인터넷, ssh-터미널)
+3. 라이브러리 : 컨넥터, 데이터베이스를 연결할 드라이버 (libmariadb.dll)
+4. 호스트명/ip : 데이터베이스가 설치된 네트워크 주소
+                localhost/127.0.0.1-연구목적, 현재 컴퓨터(자신)
+5. 사용자, 암호, 포트 : root , 1234 , 3306
+6. 데이터베이스 : root는 생략시 모든 데이터베이스를 표시해서 사용이 가능하며,
+                개별 계정은 반드시 권한을 부여받은 데이터베이스를 지정해야 한다.
+
+데이터센터>데이터뱅크>데이터베이스>테이블>레코드>필드
+
+
+[문자열 타입]
+char(n) : 고정문자열, 크기를 정해놓고 값을 저장, 낭비가 심하지만 검색속도는 빠르다 *
+varchar(n) : 가변문자열, 값에 따라 크기가 정해진다, 공간활요이 좋지만 속도는 느리다 *
+text : 65535 *
+tinytext : 255자
+mediumtext : 16,777,215자
+longtext : 4,264,967,295자
+enum : 미리 정의된 값들 중에서 하나의 값을 선택할 수 있는 데이터 타입(열거형) *
+set : 여러개의 값을 동시에 저장할 수 있는 데이터 타입
+
+[숫자 타입]
+tinyint : -128~127
+smallint : -32788~32767
+mediumint : -8,388,608~8,388,607
+int(n) : -2,147,483,648~2,147,483,647
+bihint : -9,223,372,036,854,775,808~9,223,372,036,854,775,807(회계) *
+
+[날짜 타입]
+date : yyyy-mm-dd
+datetime :yyyy-mm-dd hh:mm:ss*
+timestamp : UTC datetime(1970년 1월 1일 기준)
+time : hh:mm:ss
+year  : yyyy
+
+[논리형]
+boolean : true 또는 false
+
+[데이터베이스 언어(SQL-비절차적 언어)]
+DDL(데이터베이스 정의어) ; Create, Alter, Drop
+                        테이블, 데이터베이스, 뷰, 인덱스를 생성, 수정, 삭제 ==> Entity
+DML(데이터베이스 조작어) ; Insert, Update, Delete, Select
+                        레코드 삽입, 수정, 삭제, 조회 ==> Repository(JPA, myBatis)
+                        데이터베이스 작업의 기본단위(레코드)
+DCL(데이터베이스 제어어) ; 제약조건
+
+[Create]
+Create 대상 이름
+
+Create database sample; //sample 데이터베이스를 생성
+
+create table 이름(
+    필드명 데이터형(크기) 제약조건,
+    필드명 데이터형(크기) 제약조건
+)
+
+create table sample(
+    id int primary key,         //id필드는 정수형으로 기본키
+    name varchar(30),           //name필드는 가변문자형으로 30크기
+    age int default 0,          //age필드는 정수형으로 기본값 0으로 설정
+    tel varchar(20) not null    //tel필드는 가변문자형으로 20크기로 생략 불가능
+)
+기본키는 테이블의 레코드를 식별하는 유일한 키, 중복불가능(일련번호, 주민등록번호)
+
+[Alter]-구조변경(테이블만 가지고)
+Alter table 테이블명 ADD 필드 데이터형 - 추가
+alter table 테이블명 MODIFY 필드 데이터형 - 변경
+alter table 테이블명 RENAME 이전필드명 To 새로운 필드명 - 이름변경
+
+[Drop] - 삭제
+DROP DATABASE 데이터베이스명
+DROP TABLE 테이블명
+
+[조작어]-문법이 틀리면 오류 발생, 값에 문제가 있으면 오류 발생이 안된다.
+[Insert] 레코드 삽입 : 필드갯수와 값의 갯수가 다르면 저장이 안된다.
+                        필드에 데이터형과 값이 다르면 저장이 안된다.
+Insert Into 테이블명(필드명, 필드명, ...) values(값, 값, 값, ...)
+Repository(save)  Entity                           Entity(DTO)
+
+[Update] 레코드 수정 : 조건식이 생략하면 모든 데이터가 수정된다.
+                    반드시 작업할 대상을 지정
+Update 테이블명 SET 필드=수정값,.... WHERE 조건식
+Update sample set age=20 where name="홍길동"
+= : 정확한 데이터를 찾을 때 사용, like : 비슷한 데이터를 찾을 때 사용
+update sample set 좋아요=좋아요+1 where 게시글번호=번호
+
+[Delete] 레코드 삭제 : 조건식이 없으면 모든 데이터가 삭제
+Delete FROM 테이블명 Where 조건
+
+delete from sample where id=1 //sample 테이블에서 id가 1인 레코드 삭제
